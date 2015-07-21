@@ -1,16 +1,23 @@
 package com.lsh.tube.activity;
 
+import java.io.ByteArrayOutputStream;
+
 import android.app.Activity;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidroid.xutils.BitmapUtils;
 import com.lsh.tube.R;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
+import com.lsh.tube.db.MyCollectionDB;
 
 public class MovieInfoDetailActivity extends Activity implements OnClickListener {
 
@@ -34,6 +41,8 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 	private TextView tvPlotSimple;
 
 	private BitmapUtils bitmapUtils;
+	private MovieInfo movieInfo;
+	private MyCollectionDB myCollectionDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +54,7 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 	}
 
 	private void fillData() {
-		MovieInfo movieInfo = (MovieInfo) getIntent().getParcelableExtra("movieInfoDetail");
+		movieInfo = (MovieInfo) getIntent().getParcelableExtra("movieInfoDetail");
 
 		if (!TextUtils.isEmpty(movieInfo.title)) {
 			tvFilmTitle.setText(movieInfo.title);
@@ -138,6 +147,8 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 
 		bitmapUtils = new BitmapUtils(this);
 
+		myCollectionDB = new MyCollectionDB(this);
+
 		setListener();
 	}
 
@@ -154,6 +165,13 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 			finish();
 			break;
 		case R.id.ivCollect:
+			// 查询是否已经收藏过
+			if (isCollected()) {
+				Toast.makeText(this, "已添加到我的收藏", 0).show();
+			} else {
+				// 添加收藏
+				collect();
+			}
 			break;
 		case R.id.ivShare:
 			break;
@@ -161,5 +179,68 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * 查询当前影片是否已添加到收藏中
+	 * @return
+	 */
+	private boolean isCollected() {
+		Cursor cursor = myCollectionDB.queryMovieInfoById(movieInfo.movieid);
+		if (cursor.moveToFirst()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 添加到我的收藏，将数据写入数据库
+	 */
+	public void collect() {
+		long rowID = myCollectionDB.insert(movieInfo, getPosterBytes());
+		if (rowID == -1) {
+			Toast.makeText(this, "添加到我的收藏失败", 0).show();
+		} else {
+			Toast.makeText(this, "添加到我的收藏成功", 0).show();
+		}
+	}
+
+	/**
+	 * 添加到我的收藏，将数据写入数据库
+	 */
+	/*private void collect() {
+		ContentValues values = new ContentValues();
+		values.put("movieid", movieInfo.movieid);
+		values.put("actors", movieInfo.actors);
+		values.put("also_known_as", movieInfo.also_known_as);
+		values.put("country", movieInfo.country);
+		values.put("directors", movieInfo.directors);
+		values.put("film_locations", movieInfo.film_locations);
+		values.put("genres", movieInfo.genres);
+		values.put("language", movieInfo.language);
+		values.put("plot_simple", movieInfo.plot_simple);
+		values.put("poster", getPosterBytes());
+		values.put("rated", movieInfo.rated);
+		values.put("rating", movieInfo.rating);
+		values.put("rating_count", movieInfo.rating_count);
+		values.put("release_date", movieInfo.release_date);
+		values.put("runtime", movieInfo.runtime);
+		values.put("title", movieInfo.title);
+		values.put("type", movieInfo.type);
+		values.put("writers", movieInfo.writers);
+		values.put("year", movieInfo.year);
+		writableDatabase.insert(MyCollectionOpenHelper.DATABASE_TABLE, null, values);
+	}*/
+
+	/**
+	 * 将海报图片转为字节数组，便于存储
+	 * @return
+	 */
+	private byte[] getPosterBytes() {
+		BitmapDrawable posterDrawable = (BitmapDrawable) ivPoster.getDrawable();
+		Bitmap posterBitmap = posterDrawable.getBitmap();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		posterBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		return baos.toByteArray();
 	}
 }

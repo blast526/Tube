@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lsh.tube.R;
 import com.lsh.tube.activity.AddressConfigActivity;
 import com.lsh.tube.bean.SupportCitiesSearchResultBean.City;
+import com.lsh.tube.util.CommonUtil;
 import com.lsh.tube.util.DataCleanManager;
 import com.lsh.tube.util.MyLog;
 import com.lsh.tube.util.SharedPreferencesUtils;
@@ -64,8 +65,13 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.llAddressConfig:
-			Intent intent = new Intent(context, AddressConfigActivity.class);
-			startActivityForResult(intent, 1);
+			// 网络判断
+			if (CommonUtil.checkNet(context)) {
+				Intent intent = new Intent(context, AddressConfigActivity.class);
+				startActivityForResult(intent, 1);
+			} else {
+				Toast.makeText(context, "无法连接到服务器或网络", 1).show();
+			}
 			break;
 		case R.id.llClearCache:
 			DataCleanManager.clearAllCache(context);

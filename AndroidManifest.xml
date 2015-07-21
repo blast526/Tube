@@ -7,6 +7,11 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="22" />
 
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.lsh.tube" >
+    </instrumentation>
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,6 +29,8 @@
         <meta-data
             android:name="com.thinkland.juheapi.openid"
             android:value="JH4e4ef93c5816c12a98d238455737e04d" />
+
+        <uses-library android:name="android.test.runner" />
 
         <activity
             android:name="com.lsh.tube.activity.WelcomeActivity"

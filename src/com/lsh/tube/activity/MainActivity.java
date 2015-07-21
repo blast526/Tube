@@ -38,8 +38,7 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 	}
 
 	private void checkNet() {
-		int networkAvailable = CommonUtil.isNetworkAvailable(this);
-		if (networkAvailable == 0) {
+		if (!CommonUtil.checkNet(this)) {
 			Toast.makeText(this, "无法连接到服务器或网络", 1).show();
 		}
 	}
@@ -65,6 +64,7 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 		// 6 设置滑动菜单的范围
 		// 参数可设置全屏、边缘、禁止滑动
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		// slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
 		menuFragment = new MenuFragment();
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, menuFragment, "Menu").commit();

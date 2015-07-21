@@ -44,8 +44,10 @@ public class MovieKeySearch {
 
 			@Override
 			public void onSuccess(int statusCode, String responseString) {
-				MyLog.d(TAG, responseString);
-				searchSuccessCallback.onSuccess(responseString);
+				if (searchSuccessCallback != null) {
+					MyLog.d(TAG, responseString);
+					searchSuccessCallback.onSuccess(responseString);
+				}
 			}
 
 			@Override
@@ -54,8 +56,10 @@ public class MovieKeySearch {
 
 			@Override
 			public void onFailure(int statusCode, String responseString, Throwable throwable) {
-				MyLog.d(TAG, responseString);
-				searchFailCallback.onFail();
+				if (searchFailCallback != null) {
+					MyLog.d(TAG, responseString);
+					searchFailCallback.onFail();
+				}
 			}
 		});
 	}

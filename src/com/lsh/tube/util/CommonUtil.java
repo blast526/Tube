@@ -60,6 +60,15 @@ public class CommonUtil {
 		return hexString.toString();
 	}
 
+	public static boolean checkNet(Context context) {
+		int status = isNetworkAvailable(context);
+		if (status == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	/**
 	 * 判断当前是否有可用的网络以及网络类型 0：无网络 1：WIFI 2：CMWAP 3：CMNET
 	 * 

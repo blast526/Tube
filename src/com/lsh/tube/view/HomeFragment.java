@@ -17,6 +17,7 @@ import com.lsh.tube.activity.MovieSearchResultListActivity;
 import com.lsh.tube.bean.MovieKeySearchResultBean;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 import com.lsh.tube.net.MovieKeySearch;
+import com.lsh.tube.util.CommonUtil;
 import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
 
@@ -66,11 +67,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.ivSearchMovie:
 			if (TextUtils.isEmpty(etSearchMovieTitle.getText())) {
-				Toast.makeText(context, "请输入关键字", 0).show();
+				Toast.makeText(context, "请输入影片全名", 0).show();
 			} else {
-				// new
-				// MovieKeySearchTask().execute(etSearchMovieTitle.getText().toString());
-				movieKeySearch.search(etSearchMovieTitle.getText().toString());
+				if (CommonUtil.checkNet(context)) {
+					movieKeySearch.search(etSearchMovieTitle.getText().toString());
+				} else {
+					MyLog.d(TAG, CommonUtil.checkNet(context) + "");
+					Toast.makeText(context, "无法连接到服务器或网络", 1).show();
+				}
 			}
 			break;
 
