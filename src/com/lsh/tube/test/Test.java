@@ -7,11 +7,13 @@ import com.lsh.tube.db.MyCollectionOpenHelper;
 
 /**
  * 
- * @Description 数据库测试工具
+ * @Description 单元测试工具
  * @author Blast
  * @date 2015-7-21 下午5:53:42
  */
-public class DBTest extends AndroidTestCase {
+public class Test extends AndroidTestCase {
+
+	protected static final String TAG = "Test";
 
 	/**
 	 * 数据库创建测试

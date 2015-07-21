@@ -8,18 +8,25 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsh.tube.R;
 import com.lsh.tube.activity.MovieSearchResultListActivity;
+import com.lsh.tube.adpater.MoviesTodayGridViewAdapter;
 import com.lsh.tube.bean.MovieKeySearchResultBean;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
+import com.lsh.tube.bean.MoviesTodaySearchResultBean;
+import com.lsh.tube.bean.MoviesTodaySearchResultBean.Movie;
 import com.lsh.tube.net.MovieKeySearch;
+import com.lsh.tube.net.MoviesTodaySearch;
 import com.lsh.tube.util.CommonUtil;
 import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
+import com.lsh.tube.util.SharedPreferencesUtils;
 
 /**
  * 
@@ -31,28 +38,33 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	protected static final String TAG = "HomeFragment";
 
-	private TextView tvMoreMovieInfo;
-	private TextView etSearchMovieTitle;
+	private EditText etSearchMovieTitle;
 	private ImageView ivSearchMovie;
+	private TextView tvMoreMovieInfo;
+	private GridView gvMoviesToday;
 
 	private MovieKeySearch movieKeySearch;
+	private MoviesTodaySearch moviesTodaySearch;
 
 	@Override
 	public View initView(LayoutInflater inflater) {
 		view = inflater.inflate(R.layout.home_fragment_layout, null);
-		etSearchMovieTitle = (TextView) view.findViewById(R.id.etSearchMovieTitle);
+		etSearchMovieTitle = (EditText) view.findViewById(R.id.etSearchMovieTitle);
 		ivSearchMovie = (ImageView) view.findViewById(R.id.ivSearchMovie);
 		tvMoreMovieInfo = (TextView) view.findViewById(R.id.tvMoreMovieInfo);
+		gvMoviesToday = (GridView) view.findViewById(R.id.gvMoviesToday);
 		setListener();
 		return view;
 	}
 
 	private void setListener() {
 		ivSearchMovie.setOnClickListener(this);
+		tvMoreMovieInfo.setOnClickListener(this);
 	}
 
 	@Override
 	public void initData(Bundle savedInstanceState) {
+		// 影片关键字搜索
 		movieKeySearch = new MovieKeySearch(context);
 		movieKeySearch.setSearchSuccessCallback(new MovieKeySearch.SearchSuccessCallback() {
 
@@ -66,6 +78,27 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				startActivity(intent);
 			}
 		});
+
+		// 获取我的住址存储的城市id
+		String cityid = SharedPreferencesUtils.getString(context, "city_id");
+		// 今日放映影片查询
+		moviesTodaySearch = new MoviesTodaySearch(context);
+		moviesTodaySearch.setSearchSuccessCallback(new MoviesTodaySearch.SearchSuccessCallback() {
+
+			@Override
+			public void onSuccess(String response) {
+				MyLog.d(TAG, response);
+				MoviesTodaySearchResultBean moviesTodaySearchResultBean = GsonTools.changeGsonToBean(response, MoviesTodaySearchResultBean.class);
+				ArrayList<Movie> result = moviesTodaySearchResultBean.result;
+				MoviesTodayGridViewAdapter adapter = new MoviesTodayGridViewAdapter(context, result);
+				gvMoviesToday.setAdapter(adapter);
+			}
+		});
+		if (TextUtils.isEmpty(cityid)) {
+			Toast.makeText(context, "请先到设置界面设置所在城市", 0).show();
+		} else {
+			moviesTodaySearch.search(cityid);
+		}
 	}
 
 	@Override

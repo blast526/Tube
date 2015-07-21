@@ -4,7 +4,7 @@
 
 ------
 
-##7月21日，首次提交
+## 7月21日，首次提交
 
 1.大体界面的搭建，使用开源框架slidingmenu，配合fragment
   WelcomeActivity 欢迎界面，放大、渐显动画效果
@@ -32,7 +32,7 @@
 > * {目前存在的bug：1.网络判断 2.slidingmenu菜单界面滑动支持}
 > * {目前想要添加的功能：1.收藏功能，数据库创建与功能 2.分享功能}
 
-##7月21日 下午
+## 7月21日 下午
 
 1.MyCollectionOpenHelper 数据库帮助类，采用单例模式构造，创建我的收藏数据库;其中图片以字节数组方式存储blob；添加时间戳
 
@@ -50,3 +50,15 @@
     ShareMovieInfoUtil.shareMsg(this, "分享影片", "影片分享", "这是我喜爱的电影，强烈推荐！--" + movieInfo.title, imgPath);
   }
   ```
+
+4.设置点击监听，requestDisallowInterceptTouchEvent方法，解决影片信息详情页面ScrollView嵌套的滚动冲突
+
+## 7月21日 晚上
+
+1.MoviesTodaySearch 今日放映影片查询的网络请求封装，MoviesTodaySearchResultBean 今日放映影片查询封装bean，请求返回json格式数据，使用gson解析，传递数据所需Parcelable序列化
+
+2.HomeFragment 中正在热映的使用GridView展示今日放映影片，MoviesTodayGridViewAdapter适配器优化
+
+> * GridView 图片和片名布局错位，尚未处理
+> * 计划HomeFragment只展示一部分，添加<更多>点击事件，跳转展示更多放映影片，考虑使用上拉加载更多，并为GridView添加item点击事件，跳转到MovieInfoDetailActivity界面
+> * 我的收藏界面尚未处理，计划使用listview展示添加到数据库中的影片信息，考虑使用侧滑删除控件，添加清空功能

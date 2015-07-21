@@ -9,9 +9,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lsh.tube.R;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 import com.lsh.tube.db.MyCollectionDB;
+import com.lsh.tube.util.MyLog;
 import com.lsh.tube.util.ShareMovieInfoUtil;
 
 /**
@@ -28,6 +31,8 @@ import com.lsh.tube.util.ShareMovieInfoUtil;
  * @date 2015-7-21 下午5:47:05
  */
 public class MovieInfoDetailActivity extends Activity implements OnClickListener {
+
+	protected static final String TAG = "MovieInfoDetailActivity";
 
 	private ImageView ivBack;
 	private ImageView ivCollect;
@@ -47,6 +52,9 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 	private TextView tvRuntime;
 	private TextView tvAlsoKnownAs;
 	private TextView tvPlotSimple;
+
+	private ScrollView parentScroll;
+	private ScrollView childScroll;
 
 	private BitmapUtils bitmapUtils;
 	private MovieInfo movieInfo;
@@ -153,6 +161,9 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 		tvAlsoKnownAs = (TextView) findViewById(R.id.tvAlsoKnownAs);
 		tvPlotSimple = (TextView) findViewById(R.id.tvPlotSimple);
 
+		parentScroll = (ScrollView) findViewById(R.id.parent_scroll);
+		childScroll = (ScrollView) findViewById(R.id.child_scroll);
+
 		bitmapUtils = new BitmapUtils(this);
 
 		myCollectionDB = new MyCollectionDB(this);
@@ -164,6 +175,26 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 		ivBack.setOnClickListener(this);
 		ivCollect.setOnClickListener(this);
 		ivShare.setOnClickListener(this);
+
+		// 解决ScrollView嵌套滚动事件
+		parentScroll.setOnTouchListener(new View.OnTouchListener() {
+
+			public boolean onTouch(View v, MotionEvent event) {
+				MyLog.d(TAG, "PARENT TOUCH");
+				findViewById(R.id.child_scroll).getParent().requestDisallowInterceptTouchEvent(false);
+				return false;
+			}
+		});
+		childScroll.setOnTouchListener(new View.OnTouchListener() {
+
+			public boolean onTouch(View v, MotionEvent event) {
+				MyLog.d(TAG, "CHILD TOUCH");
+				// Disallow the touch request for parent scroll on touch of
+				// child view
+				v.getParent().requestDisallowInterceptTouchEvent(true);
+				return false;
+			}
+		});
 	}
 
 	@Override
