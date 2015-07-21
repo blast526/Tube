@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#039be5"
+    android:orientation="vertical"
+    android:padding="15dp" >
+
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/avatar_shape"
+        android:scaleType="fitXY"
+        android:src="@drawable/avatar" />
+
+    <TextView
+        android:id="@+id/tvNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="blast526" />
+
+    <TextView
+        android:id="@+id/tvMovieInfo"
+        style="@style/tab_style"
+        android:drawableLeft="@drawable/ic_movie_info"
+        android:text="影音资讯" />
+
+    <TextView
+        android:id="@+id/tvSurroundingCinema"
+        style="@style/tab_style"
+        android:drawableLeft="@drawable/ic_surrounding_cinema"
+        android:text="周边影院" />
+
+    <TextView
+        android:id="@+id/tvMyCollection"
+        style="@style/tab_style"
+        android:drawableLeft="@drawable/ic_my_collection"
+        android:text="我的收藏" />
+
+    <TextView
+        android:id="@+id/tvSetting"
+        style="@style/tab_style"
+        android:drawableLeft="@drawable/ic_settings"
+        android:text="设置" />
+
+</LinearLayout>
