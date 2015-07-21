@@ -14,6 +14,12 @@ import android.widget.TextView;
 import com.lsh.tube.R;
 import com.lsh.tube.bean.SupportCitiesSearchResultBean.City;
 
+/**
+ * 
+ * @Description 支持城市列表适配器
+ * @author Blast
+ * @date 2015-7-21 下午5:48:46
+ */
 public class SupportCityResultListAdapter extends BaseAdapter {
 
 	private Context context;

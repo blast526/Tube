@@ -6,6 +6,12 @@ import android.view.View;
 
 import com.lsh.tube.R;
 
+/**
+ * 
+ * @Description 周边影院Fragment
+ * @author Blast
+ * @date 2015-7-21 下午6:02:38
+ */
 public class SurroundingCinemaFragment extends BaseFragment {
 
 	@Override

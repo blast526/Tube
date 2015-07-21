@@ -8,6 +8,12 @@ import com.thinkland.sdk.android.DataCallBack;
 import com.thinkland.sdk.android.JuheData;
 import com.thinkland.sdk.android.Parameters;
 
+/**
+ * 
+ * @Description 支持城市查询网络请求封装
+ * @author Blast
+ * @date 2015-7-21 下午5:53:16
+ */
 public class SupportCitiesSearch {
 
 	private static final String TAG = "SupportCitiesSearch";

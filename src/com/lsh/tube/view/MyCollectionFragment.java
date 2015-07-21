@@ -6,6 +6,12 @@ import android.view.View;
 
 import com.lsh.tube.R;
 
+/**
+ * 
+ * @Description 我的收藏Fragment
+ * @author Blast
+ * @date 2015-7-21 下午6:01:16
+ */
 public class MyCollectionFragment extends BaseFragment {
 
 	@Override

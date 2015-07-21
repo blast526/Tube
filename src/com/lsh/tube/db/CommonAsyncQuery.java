@@ -5,6 +5,12 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.widget.CursorAdapter;
 
+/**
+ * 
+ * @Description 异步查询
+ * @author Blast
+ * @date 2015-7-21 下午5:51:26
+ */
 public class CommonAsyncQuery extends AsyncQueryHandler {
 
 	private static final String TAG = "CommonAsyncQuery";

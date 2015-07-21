@@ -6,6 +6,12 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * 
+ * @Description json和bean转换工具
+ * @author Blast
+ * @date 2015-7-21 下午5:58:13
+ */
 public class GsonTools {
 
 	public static String createGsonString(Object object) {

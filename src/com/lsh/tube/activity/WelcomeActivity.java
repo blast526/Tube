@@ -10,6 +10,12 @@ import android.widget.ImageView;
 
 import com.lsh.tube.R;
 
+/**
+ * 
+ * @Description 启动页面
+ * @author Blast
+ * @date 2015-7-21 下午5:47:56
+ */
 public class WelcomeActivity extends Activity {
 
 	@Override

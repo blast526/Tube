@@ -7,6 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 
+/**
+ * 
+ * @Description 我的收藏数据库操作工具类
+ * @author Blast
+ * @date 2015-7-21 下午5:52:01
+ */
 public class MyCollectionDB {
 
 	private Context context;

@@ -10,6 +10,12 @@ import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * 
+ * @Description 常用工具类：显示信息对话框，字符串md5加密，网络检查，格式化时间获取，dp和px转换
+ * @author Blast
+ * @date 2015-7-21 下午5:54:31
+ */
 public class CommonUtil {
 
 	public static void showInfoDialog(Context context, String message) {

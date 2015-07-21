@@ -10,6 +10,12 @@ import android.view.ViewGroup;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lsh.tube.activity.MainActivity;
 
+/**
+ * 
+ * @Description Fragment提取公共类
+ * @author Blast
+ * @date 2015-7-21 下午5:59:40
+ */
 public abstract class BaseFragment extends Fragment {
 
 	public View view;

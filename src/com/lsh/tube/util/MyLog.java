@@ -2,6 +2,12 @@ package com.lsh.tube.util;
 
 import android.util.Log;
 
+/**
+ * 
+ * @Description 自定义日志工具
+ * @author Blast
+ * @date 2015-7-21 下午5:58:43
+ */
 public class MyLog {
 
 	public static void d(String tag, String msg) {

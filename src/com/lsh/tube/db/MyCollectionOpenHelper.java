@@ -5,6 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * 
+ * @Description 我的收藏数据库帮助类
+ * @author Blast
+ * @date 2015-7-21 下午5:52:24
+ */
 public class MyCollectionOpenHelper extends SQLiteOpenHelper {
 
 	public static final String DATABASE_NAME = "mycollection.db";

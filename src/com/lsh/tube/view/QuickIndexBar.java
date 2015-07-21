@@ -10,6 +10,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * 
+ * @Description 我的住址城市列表选择快速索引自定义控件
+ * @author Blast
+ * @date 2015-7-21 下午6:01:35
+ */
 public class QuickIndexBar extends View {
 
 	private String[] indexArr = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };

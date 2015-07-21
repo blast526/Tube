@@ -15,6 +15,12 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lsh.tube.R;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 
+/**
+ * 
+ * @Description 影片搜索结果列表适配器
+ * @author Blast
+ * @date 2015-7-21 下午5:48:14
+ */
 public class MovieSearchResultListAdapter extends BaseAdapter {
 
 	private Context context;

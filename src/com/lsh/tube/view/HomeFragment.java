@@ -21,6 +21,12 @@ import com.lsh.tube.util.CommonUtil;
 import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
 
+/**
+ * 
+ * @Description 影音资讯Fragment
+ * @author Blast
+ * @date 2015-7-21 下午6:00:20
+ */
 public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	protected static final String TAG = "HomeFragment";

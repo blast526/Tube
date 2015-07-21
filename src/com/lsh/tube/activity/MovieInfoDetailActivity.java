@@ -1,6 +1,7 @@
 package com.lsh.tube.activity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -18,7 +19,14 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lsh.tube.R;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 import com.lsh.tube.db.MyCollectionDB;
+import com.lsh.tube.util.ShareMovieInfoUtil;
 
+/**
+ * 
+ * @Description 影片信息详情页面
+ * @author Blast
+ * @date 2015-7-21 下午5:47:05
+ */
 public class MovieInfoDetailActivity extends Activity implements OnClickListener {
 
 	private ImageView ivBack;
@@ -161,10 +169,10 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ivBack:
+		case R.id.ivBack:// 返回
 			finish();
 			break;
-		case R.id.ivCollect:
+		case R.id.ivCollect:// 收藏
 			// 查询是否已经收藏过
 			if (isCollected()) {
 				Toast.makeText(this, "已添加到我的收藏", 0).show();
@@ -173,12 +181,24 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 				collect();
 			}
 			break;
-		case R.id.ivShare:
+		case R.id.ivShare:// 分享
+			share();
 			break;
 
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * 分享图片，添加文字
+	 */
+	public void share() {
+		// 从缓存中获取图片文件
+		File bitmapFileFromDiskCache = bitmapUtils.getBitmapFileFromDiskCache(movieInfo.poster);
+		// 获取图片文件路径
+		String imgPath = bitmapFileFromDiskCache.getAbsolutePath();
+		ShareMovieInfoUtil.shareMsg(this, "分享影片", "影片分享", "这是我喜爱的电影，强烈推荐！--" + movieInfo.title, imgPath);
 	}
 
 	/**

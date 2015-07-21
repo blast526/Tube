@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * 
+ * @Description 支持城市查询结果封装bean
+ * @author Blast
+ * @date 2015-7-21 下午5:50:54
+ */
 public class SupportCitiesSearchResultBean extends BaseBean {
 
 	public ArrayList<City> result;

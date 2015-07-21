@@ -6,6 +6,12 @@ import java.math.BigDecimal;
 import android.content.Context;
 import android.os.Environment;
 
+/**
+ * 
+ * @Description 数据清理管理：缓存大小，缓存清理
+ * @author Blast
+ * @date 2015-7-21 下午5:57:22
+ */
 public class DataCleanManager {
 
 	public static String getTotalCacheSize(Context context) throws Exception {

@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * 
+ * @Description 影片搜索返回结果封装bean
+ * @author Blast
+ * @date 2015-7-21 下午5:50:20
+ */
 public class MovieKeySearchResultBean extends BaseBean {
 
 	public ArrayList<MovieInfo> result;

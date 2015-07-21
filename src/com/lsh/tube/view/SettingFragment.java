@@ -18,6 +18,12 @@ import com.lsh.tube.util.DataCleanManager;
 import com.lsh.tube.util.MyLog;
 import com.lsh.tube.util.SharedPreferencesUtils;
 
+/**
+ * 
+ * @Description 设置Fragment
+ * @author Blast
+ * @date 2015-7-21 下午6:02:23
+ */
 public class SettingFragment extends BaseFragment implements OnClickListener {
 
 	public static final String TAG = "SettingFagment";

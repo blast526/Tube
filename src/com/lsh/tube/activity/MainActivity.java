@@ -16,6 +16,12 @@ import com.lsh.tube.util.CommonUtil;
 import com.lsh.tube.view.HomeFragment;
 import com.lsh.tube.view.MenuFragment;
 
+/**
+ * 
+ * @Description 主界面
+ * @author Blast
+ * @date 2015-7-21 下午5:46:37
+ */
 public class MainActivity extends SlidingFragmentActivity implements OnClickListener {
 
 	private static final String TAG = "MainActivity";

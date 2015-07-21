@@ -21,6 +21,12 @@ import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
 import com.lsh.tube.view.QuickIndexBar;
 
+/**
+ * 
+ * @Description 我的地址设置界面
+ * @author Blast
+ * @date 2015-7-21 下午5:46:14
+ */
 public class AddressConfigActivity extends Activity {
 
 	protected static final String TAG = "AddressConfigActivity";

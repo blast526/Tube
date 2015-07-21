@@ -4,6 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/**
+ * 
+ * @Description SharedPreferences存储工具
+ * @author Blast
+ * @date 2015-7-21 下午5:59:09
+ */
 public class SharedPreferencesUtils {
 
 	private static SharedPreferences sp;

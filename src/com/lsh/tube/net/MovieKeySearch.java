@@ -10,6 +10,12 @@ import com.thinkland.sdk.android.DataCallBack;
 import com.thinkland.sdk.android.JuheData;
 import com.thinkland.sdk.android.Parameters;
 
+/**
+ * 
+ * @Description 影片关键字搜索网络请求封装
+ * @author Blast
+ * @date 2015-7-21 下午5:52:51
+ */
 public class MovieKeySearch {
 
 	private static final String TAG = "MovieKeySearch";

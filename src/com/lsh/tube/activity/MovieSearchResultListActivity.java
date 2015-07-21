@@ -14,6 +14,12 @@ import com.lsh.tube.R;
 import com.lsh.tube.adpater.MovieSearchResultListAdapter;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 
+/**
+ * 
+ * @Description 影片搜索结果列表页面
+ * @author Blast
+ * @date 2015-7-21 下午5:47:35
+ */
 public class MovieSearchResultListActivity extends ListActivity implements OnClickListener {
 
 	private ArrayList<MovieInfo> result;

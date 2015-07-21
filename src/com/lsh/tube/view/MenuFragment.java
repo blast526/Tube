@@ -11,6 +11,12 @@ import android.widget.TextView;
 import com.lsh.tube.R;
 import com.lsh.tube.activity.MainActivity;
 
+/**
+ * 
+ * @Description SlidingMenu菜单Fragment
+ * @author Blast
+ * @date 2015-7-21 下午6:00:52
+ */
 public class MenuFragment extends BaseFragment implements OnClickListener {
 
 	private ImageView ivAvatar;

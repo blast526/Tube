@@ -1,5 +1,11 @@
 package com.lsh.tube.util;
 
+/**
+ * 
+ * @Description 常量配置类
+ * @author Blast
+ * @date 2015-7-21 下午5:56:56
+ */
 public class Config {
 
 	/**
