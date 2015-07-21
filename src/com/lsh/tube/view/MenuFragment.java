@@ -59,7 +59,7 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
 			loadCourse = tvMyCollection.getText().toString();
 			break;
 		case R.id.tvSetting:
-			fragment = new SettingFagment();
+			fragment = new SettingFragment();
 			loadCourse = tvSetting.getText().toString();
 			break;
 		}

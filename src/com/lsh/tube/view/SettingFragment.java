@@ -17,7 +17,7 @@ import com.lsh.tube.util.DataCleanManager;
 import com.lsh.tube.util.MyLog;
 import com.lsh.tube.util.SharedPreferencesUtils;
 
-public class SettingFagment extends BaseFragment implements OnClickListener {
+public class SettingFragment extends BaseFragment implements OnClickListener {
 
 	public static final String TAG = "SettingFagment";
 
