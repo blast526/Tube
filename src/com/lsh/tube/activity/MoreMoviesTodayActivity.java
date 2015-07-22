@@ -25,6 +25,12 @@ import com.lsh.tube.net.MovieIDSearch;
 import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
 
+/**
+ * 
+ * @Description 更多热映影片界面
+ * @author Blast
+ * @date 2015-7-22 下午10:44:52
+ */
 public class MoreMoviesTodayActivity extends Activity implements OnClickListener, OnItemClickListener {
 
 	protected static final String TAG = "MoreMoviesTodayActivity";
@@ -60,6 +66,12 @@ public class MoreMoviesTodayActivity extends Activity implements OnClickListener
 	private void initData() {
 
 		moviesTodayResult = getIntent().getParcelableArrayListExtra("moviesTodayResult");
+		/**
+		 *  离线打开应用，点击<更多>提示无网络，
+		 *  直接打开网络，连接后再点击<更多>，直接崩溃,
+		 *  因为上一个界面中今日放映影片的网络请求并未重新执行，
+		 *  所以moviesTodayResult为空
+		 */
 		moviesTodayShowList = new ArrayList<Movie>();
 		if (moviesTodayResult.size() > 9) {
 			for (int i = 0; i < 9; i++) {

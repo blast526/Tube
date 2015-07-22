@@ -4,7 +4,7 @@ import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 
 /**
  * 
- * @Description 影片搜索返回结果封装bean
+ * @Description 根据影片ID搜索返回结果封装bean
  * @author Blast
  * @date 2015-7-21 下午5:50:20
  */

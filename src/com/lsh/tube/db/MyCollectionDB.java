@@ -64,4 +64,23 @@ public class MyCollectionDB {
 		Cursor cursor = readableDatabase.query(MyCollectionOpenHelper.DATABASE_TABLE, null, "movieid = ?", new String[] { movieId }, null, null, null);
 		return cursor;
 	}
+
+	/**
+	 * 查询所有影片记录
+	 * @return 返回查询结果集对象
+	 */
+	public Cursor queryAllMovieInfo() {
+		Cursor cursor = readableDatabase.query(MyCollectionOpenHelper.DATABASE_TABLE, null, null, null, null, null, "add_time desc");
+		return cursor;
+	}
+
+	/**
+	 * 根据影片id删除记录
+	 * @param movieId
+	 * @return the number of rows affected if a whereClause is passed in, 0 otherwise
+	 */
+	public int deleteMovieInfoById(String movieId) {
+		int deleteRow = writableDatabase.delete(MyCollectionOpenHelper.DATABASE_TABLE, "movieid = ?", new String[] { movieId });
+		return deleteRow;
+	}
 }

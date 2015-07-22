@@ -3,7 +3,6 @@ package com.lsh.tube.adpater;
 import java.util.List;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,26 +10,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lidroid.xutils.BitmapUtils;
 import com.lsh.tube.R;
-import com.lsh.tube.bean.MoviesTodaySearchResultBean.Movie;
+import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 
 /**
  * 
- * @Description 今日热映影片GridView适配器
+ * @Description 我的收藏列表适配器
  * @author Blast
- * @date 2015-7-22 下午10:45:35
+ * @date 2015-7-22 下午10:46:20
  */
-public class MoviesTodayGridViewAdapter extends BaseAdapter {
+public class MyCollectionListAdapter extends BaseAdapter {
 
 	private Context context;
-	private List<Movie> list;
-	private BitmapUtils bitmapUtils;
+	private List<MovieInfo> list;
 
-	public MoviesTodayGridViewAdapter(Context context, List<Movie> list) {
+	public MyCollectionListAdapter(Context context, List<MovieInfo> list) {
 		this.context = context;
 		this.list = list;
-		bitmapUtils = new BitmapUtils(context);
 	}
 
 	@Override
@@ -39,7 +35,7 @@ public class MoviesTodayGridViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Movie getItem(int position) {
+	public MovieInfo getItem(int position) {
 		return list.get(position);
 	}
 
@@ -53,17 +49,13 @@ public class MoviesTodayGridViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = LayoutInflater.from(context).inflate(com.lsh.tube.R.layout.movies_today_gridview_item, null);
+			convertView = LayoutInflater.from(context).inflate(com.lsh.tube.R.layout.my_collection_movies_list_item, null);
 		}
 		holder = getViewHolder(convertView);
 
-		Movie movie = list.get(position);
-		if (!TextUtils.isEmpty(movie.pic_url)) {
-			bitmapUtils.display(holder.ivItemPoster, movie.pic_url);
-		}
-		if (!TextUtils.isEmpty(movie.movieName)) {
-			holder.tvItemMovieTitle.setText(movie.movieName);
-		}
+		MovieInfo movieInfo = list.get(position);
+		holder.ivMoviePoster.setImageBitmap(movieInfo.posterBitmap);
+		holder.tvMovieTitle.setText(movieInfo.title);
 
 		return convertView;
 	}
@@ -78,12 +70,12 @@ public class MoviesTodayGridViewAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
-		ImageView ivItemPoster;
-		TextView tvItemMovieTitle;
+		ImageView ivMoviePoster;
+		TextView tvMovieTitle;
 
 		public ViewHolder(View convertView) {
-			this.ivItemPoster = (ImageView) convertView.findViewById(R.id.ivItemPoster);
-			this.tvItemMovieTitle = (TextView) convertView.findViewById(R.id.tvItemMovieTitle);
+			this.ivMoviePoster = (ImageView) convertView.findViewById(R.id.ivMoviePoster);
+			this.tvMovieTitle = (TextView) convertView.findViewById(R.id.tvMovieTitle);
 		}
 	}
 }

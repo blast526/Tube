@@ -41,7 +41,7 @@
 > * {网络判断修复；slidingmenu菜单区域支持侧滑关闭，setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN)，菜单条目点击事件失效；可仿QQ菜单特效实现，未实现}
 
 3.分享功能实现，ShareMovieInfoUtil 同时分享海报和添加文字信息；使用系统自带Intent.ACTION_SEND
-  ```python
+  ```java
   public void share() {
     // 从缓存中获取图片文件
     File bitmapFileFromDiskCache = bitmapUtils.getBitmapFileFromDiskCache(movieInfo.poster);
@@ -72,3 +72,17 @@
 3.MovieIDSearch 按影片id检索影片信息网络请求封装，MoviesTodaySearchResultBean id检索影片信息封装bean，其中影片信息MovieInfo 复用MovieKeySearchResultBean中的MovieInfo，因为返回字段相同
 
 4.实现两个界面中GridView的item点击事件，并跳转
+
+## 7月22日 晚上
+
+1.MyCollectionFragment 我的收藏界面完善，使用开源框架SwipeMenuListView 对数据库查询收藏记录返回结果集封装bean进行展示；添加侧滑后可打开跳转到影片信息详情页面和删除数据记录的功能
+
+2.由于收藏时海报图片采用blob存储，为了离线也可查看，在MovieInfo中添加成员变量Bitmap posterBitmap,跳转后判断设置ImageView
+
+> * 离线打开应用，点击<更多>提示无网络，
+> * 直接打开网络，连接后再点击<更多>，直接崩溃,
+> * 因为上一个界面中今日放映影片的网络请求并未重新执行，
+> * 所以moviesTodayResult为空
+
+> * 存在bug，更多影片页面，刷新问题
+> * 中间有一次在城市列表页面莫名崩溃，后来再测试并未出现，等待分析log

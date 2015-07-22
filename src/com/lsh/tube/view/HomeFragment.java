@@ -2,8 +2,13 @@ package com.lsh.tube.view;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +60,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private ArrayList<Movie> moviesTodayResult;
 	private MoviesTodayGridViewAdapter adapter;
+
+	private ConnectionChangeReceiver connectionChangeReceiver;
+	private LocalBroadcastManager localBroadcastManager;
 
 	@Override
 	public View initView(LayoutInflater inflater) {
@@ -146,9 +154,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			}
 			break;
 		case R.id.tvMoreMovieInfo:
-			Intent intent = new Intent(context, MoreMoviesTodayActivity.class);
-			intent.putExtra("moviesTodayResult", moviesTodayResult);
-			startActivity(intent);
+
+			if (CommonUtil.checkNet(context)) {
+				Intent intent = new Intent(context, MoreMoviesTodayActivity.class);
+				intent.putExtra("moviesTodayResult", moviesTodayResult);
+				startActivity(intent);
+			} else {
+				MyLog.d(TAG, CommonUtil.checkNet(context) + "");
+				Toast.makeText(context, "无法连接到服务器或网络", 1).show();
+			}
 			break;
 		default:
 			break;
@@ -172,6 +186,46 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		});
 		Movie movie = adapter.getItem(position);
 		movieIDSearch.search(movie.movieId);
+	}
+
+	/**
+	 * 
+	 * @Description 监听网络状态变化
+	 * 离线打开应用，点击<更多>提示无网络，
+	 * 直接打开网络，连接后再点击<更多>，直接崩溃,
+	 * 因为上一个界面中今日放映影片的网络请求并未重新执行，
+	 * 所以moviesTodayResult为空
+	 * @author Blast
+	 * @date 2015-7-22 下午11:04:39
+	 */
+	class ConnectionChangeReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (CommonUtil.checkNet(context)) {
+				initMoviesToday();
+			}
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		// 发送广播并注册
+		localBroadcastManager = LocalBroadcastManager.getInstance(activity);
+		Intent intent = new Intent("com.lsh.tube.CONNECTION_CHANGE_BROADCAST");
+		localBroadcastManager.sendBroadcast(intent);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("com.lsh.tube.CONNECTION_CHANGE_BROADCAST");
+		connectionChangeReceiver = new ConnectionChangeReceiver();
+		localBroadcastManager.registerReceiver(connectionChangeReceiver, intentFilter);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		// 注销广播
+		localBroadcastManager.unregisterReceiver(connectionChangeReceiver);
 	}
 
 	// class MovieKeySearchTask extends AsyncTask<String, Void, Void> {

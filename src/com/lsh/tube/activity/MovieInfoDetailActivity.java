@@ -77,6 +77,8 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 		}
 		if (!TextUtils.isEmpty(movieInfo.poster)) {
 			bitmapUtils.display(ivPoster, movieInfo.poster);
+		} else if (movieInfo.posterBitmap != null) {
+			ivPoster.setImageBitmap(movieInfo.posterBitmap);
 		}
 		if (!TextUtils.isEmpty(movieInfo.rating)) {
 			tvRating.setText(movieInfo.rating);

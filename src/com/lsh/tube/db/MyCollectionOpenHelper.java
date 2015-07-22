@@ -40,6 +40,8 @@ public class MyCollectionOpenHelper extends SQLiteOpenHelper {
 	// type string 影片类型.
 	// writers string 影片的编剧列表。
 	// year Int 影片的拍摄年代。
+
+	// 添加加入到收藏夹的时间戳
 	public static final String CREATE_TABLE = "create table " + DATABASE_TABLE + "(_id integer primary key autoincrement," + " movieid text not null, actors text, also_known_as text, country text,directors text, film_locations text, genres text, language text, plot_simple text, poster blob, rated text, rating text, rating_count text, release_date integer, runtime text, title text, type text, writers text, year integer, add_time timestamp not null default CURRENT_TIMESTAMP);";
 
 	/**************************单例模式**************************/

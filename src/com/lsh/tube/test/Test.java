@@ -21,6 +21,5 @@ public class Test extends AndroidTestCase {
 	public void testDBCreate() {
 		MyCollectionOpenHelper myCollectionOpenhelper = MyCollectionOpenHelper.getInstance(mContext);
 		SQLiteDatabase writableDatabase = myCollectionOpenhelper.getWritableDatabase();
-
 	}
 }

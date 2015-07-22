@@ -2,6 +2,7 @@ package com.lsh.tube.bean;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -58,6 +59,8 @@ public class MovieKeySearchResultBean extends BaseBean {
 		public String type;
 		public String writers;
 		public int year;
+		// 用于收藏夹跳转影片信息详情页
+		public Bitmap posterBitmap;
 
 		@Override
 		public int describeContents() {
@@ -85,6 +88,8 @@ public class MovieKeySearchResultBean extends BaseBean {
 			dest.writeString(type);
 			dest.writeString(writers);
 			dest.writeInt(year);
+
+			dest.writeParcelable(posterBitmap, flags);
 		}
 
 		public static final Parcelable.Creator<MovieInfo> CREATOR = new Parcelable.Creator<MovieKeySearchResultBean.MovieInfo>() {
@@ -116,6 +121,8 @@ public class MovieKeySearchResultBean extends BaseBean {
 				movieInfo.type = source.readString();
 				movieInfo.writers = source.readString();
 				movieInfo.year = source.readInt();
+
+				movieInfo.posterBitmap = source.readParcelable(Bitmap.class.getClassLoader());
 				return movieInfo;
 			}
 		};
