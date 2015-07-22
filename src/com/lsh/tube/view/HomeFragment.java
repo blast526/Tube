@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsh.tube.R;
+import com.lsh.tube.activity.MoreMoviesTodayActivity;
 import com.lsh.tube.activity.MovieSearchResultListActivity;
 import com.lsh.tube.adpater.MoviesTodayGridViewAdapter;
 import com.lsh.tube.bean.MovieKeySearchResultBean;
@@ -46,6 +47,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private MovieKeySearch movieKeySearch;
 	private MoviesTodaySearch moviesTodaySearch;
 
+	private ArrayList<Movie> moviesTodayResult;
+
 	@Override
 	public View initView(LayoutInflater inflater) {
 		view = inflater.inflate(R.layout.home_fragment_layout, null);
@@ -54,6 +57,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		tvMoreMovieInfo = (TextView) view.findViewById(R.id.tvMoreMovieInfo);
 		gvMoviesToday = (GridView) view.findViewById(R.id.gvMoviesToday);
 		setListener();
+
 		return view;
 	}
 
@@ -79,6 +83,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			}
 		});
 
+		initMoviesToday();
+	}
+
+	/**
+	 * 网络请求加载今日放映影片
+	 */
+	public void initMoviesToday() {
 		// 获取我的住址存储的城市id
 		String cityid = SharedPreferencesUtils.getString(context, "city_id");
 		// 今日放映影片查询
@@ -89,9 +100,19 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			public void onSuccess(String response) {
 				MyLog.d(TAG, response);
 				MoviesTodaySearchResultBean moviesTodaySearchResultBean = GsonTools.changeGsonToBean(response, MoviesTodaySearchResultBean.class);
-				ArrayList<Movie> result = moviesTodaySearchResultBean.result;
-				MoviesTodayGridViewAdapter adapter = new MoviesTodayGridViewAdapter(context, result);
+				moviesTodayResult = moviesTodaySearchResultBean.result;
+				ArrayList<Movie> homeShowList = new ArrayList<MoviesTodaySearchResultBean.Movie>();
+				MoviesTodayGridViewAdapter adapter;
+				if (moviesTodayResult.size() > 6) {
+					for (int i = 0; i < 6; i++) {
+						homeShowList.add(moviesTodayResult.get(i));
+					}
+					adapter = new MoviesTodayGridViewAdapter(context, homeShowList);
+				} else {
+					adapter = new MoviesTodayGridViewAdapter(context, moviesTodayResult);
+				}
 				gvMoviesToday.setAdapter(adapter);
+
 			}
 		});
 		if (TextUtils.isEmpty(cityid)) {
@@ -116,12 +137,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				}
 			}
 			break;
-
+		case R.id.tvMoreMovieInfo:
+			Intent intent = new Intent(context, MoreMoviesTodayActivity.class);
+			intent.putExtra("moviesTodayResult", moviesTodayResult);
+			startActivity(intent);
+			break;
 		default:
 			break;
 		}
 	}
-
 	// class MovieKeySearchTask extends AsyncTask<String, Void, Void> {
 	//
 	// @Override

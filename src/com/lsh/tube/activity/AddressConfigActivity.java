@@ -19,7 +19,7 @@ import com.lsh.tube.bean.SupportCitiesSearchResultBean.City;
 import com.lsh.tube.net.SupportCitiesSearch;
 import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
-import com.lsh.tube.view.QuickIndexBar;
+import com.lsh.tube.widget.QuickIndexBar;
 
 /**
  * 

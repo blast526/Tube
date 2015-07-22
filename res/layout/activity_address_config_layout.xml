@@ -10,7 +10,7 @@
         android:layout_height="match_parent" >
     </ListView>
 
-    <com.lsh.tube.view.QuickIndexBar
+    <com.lsh.tube.widget.QuickIndexBar
         android:id="@+id/quickIndexBar"
         android:layout_width="35dp"
         android:layout_height="match_parent"

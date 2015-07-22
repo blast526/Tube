@@ -2,6 +2,7 @@ package com.lsh.tube.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +29,7 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 
 	private SlidingMenu slidingMenu;
 	private MenuFragment menuFragment;
+	private Fragment contentFragment;
 	private ImageButton ibMenuLeft;
 	private TextView tvLoadCourse;
 
@@ -75,8 +77,8 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 		menuFragment = new MenuFragment();
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, menuFragment, "Menu").commit();
 		HomeFragment homeFragment = new HomeFragment();
-		getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, homeFragment, "Home").commit();
-
+		getSupportFragmentManager().beginTransaction().add(R.id.content_frame, homeFragment, "Home").commit();
+		contentFragment = homeFragment;
 	}
 
 	/**
@@ -85,7 +87,19 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 	 * @param loadCourse 
 	 */
 	public void switchFragment(Fragment fragment, String loadCourse) {
-		getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+		// 切换时都会重新创建
+		// getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+		// fragment).commit();
+		if (contentFragment.getClass() != (fragment.getClass())) {
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			if (!fragment.isAdded()) { // 先判断是否被add过
+				transaction.hide(contentFragment).add(R.id.content_frame, fragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
+			} else {
+				transaction.hide(contentFragment).show(fragment).commit(); // 隐藏当前的fragment，显示下一个
+			}
+			contentFragment = fragment;
+		}
+
 		tvLoadCourse.setText(loadCourse);
 		// 隐藏slidingmenu
 		slidingMenu.toggle();
@@ -112,6 +126,9 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 		return super.onKeyDown(keyCode, event);
 	}
 
+	/**
+	 * 按两次退出
+	 */
 	public void exit() {
 		if ((System.currentTimeMillis() - exitTime) > 1500) {
 			Toast.makeText(this, "再按一次退出程序", 0).show();
@@ -121,4 +138,5 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 			System.exit(0);
 		}
 	}
+
 }

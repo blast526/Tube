@@ -56,15 +56,19 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	public void initData(Bundle savedInstanceState) {
 		// String packageName = context.getPackageName();
 		// queryPacakgeSize(packageName);
+		getCache();
+
+		String city_name = SharedPreferencesUtils.getString(context, "city_name");
+		tvMyAddress.setText(city_name);
+	}
+
+	public void getCache() {
 		try {
 			String totalCacheSize = DataCleanManager.getTotalCacheSize(context);
 			tvCacheSize.setText(totalCacheSize);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		String city_name = SharedPreferencesUtils.getString(context, "city_name");
-		tvMyAddress.setText(city_name);
 	}
 
 	@Override
@@ -81,7 +85,7 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.llClearCache:
 			DataCleanManager.clearAllCache(context);
-			tvCacheSize.setText("0KB");
+			getCache();
 			Toast.makeText(context, "清理缓存完毕", 0).show();
 			break;
 		case R.id.tvAboutMe:

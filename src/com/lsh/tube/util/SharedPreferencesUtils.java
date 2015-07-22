@@ -31,4 +31,38 @@ public class SharedPreferencesUtils {
 		return sp.getString(key, "");
 
 	}
+
+	public static void saveInt(Context context, String key, int value) {
+		if (sp == null) {
+			sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+		}
+		Editor editor = sp.edit();
+		editor.putInt(key, value);
+		editor.commit();
+	}
+
+	public static int getInt(Context context, String key) {
+		if (sp == null) {
+			sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+		}
+		return sp.getInt(key, -1);
+
+	}
+
+	public static void saveBoolean(Context context, String key, boolean value) {
+		if (sp == null) {
+			sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+		}
+		Editor editor = sp.edit();
+		editor.putBoolean(key, value);
+		editor.commit();
+	}
+
+	public static boolean getBoolean(Context context, String key) {
+		if (sp == null) {
+			sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+		}
+		return sp.getBoolean(key, false);
+
+	}
 }

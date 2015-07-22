@@ -62,3 +62,9 @@
 > * GridView 图片和片名布局错位，尚未处理
 > * 计划HomeFragment只展示一部分，添加<更多>点击事件，跳转展示更多放映影片，考虑使用上拉加载更多，并为GridView添加item点击事件，跳转到MovieInfoDetailActivity界面
 > * 我的收藏界面尚未处理，计划使用listview展示添加到数据库中的影片信息，考虑使用侧滑删除控件，添加清空功能
+
+## 7月22日 下午
+
+1.MoreMoviesTodayActivity 展示今日热映影片，使用开源框架PullToRefresh实现上拉加载更多
+
+2.修复slidingmenu切换同一个Fragment时重新创建
