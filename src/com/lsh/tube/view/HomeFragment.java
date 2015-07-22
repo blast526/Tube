@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -16,12 +18,15 @@ import android.widget.Toast;
 
 import com.lsh.tube.R;
 import com.lsh.tube.activity.MoreMoviesTodayActivity;
+import com.lsh.tube.activity.MovieInfoDetailActivity;
 import com.lsh.tube.activity.MovieSearchResultListActivity;
 import com.lsh.tube.adpater.MoviesTodayGridViewAdapter;
+import com.lsh.tube.bean.MovieIDSearchResultBean;
 import com.lsh.tube.bean.MovieKeySearchResultBean;
 import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 import com.lsh.tube.bean.MoviesTodaySearchResultBean;
 import com.lsh.tube.bean.MoviesTodaySearchResultBean.Movie;
+import com.lsh.tube.net.MovieIDSearch;
 import com.lsh.tube.net.MovieKeySearch;
 import com.lsh.tube.net.MoviesTodaySearch;
 import com.lsh.tube.util.CommonUtil;
@@ -35,7 +40,7 @@ import com.lsh.tube.util.SharedPreferencesUtils;
  * @author Blast
  * @date 2015-7-21 下午6:00:20
  */
-public class HomeFragment extends BaseFragment implements OnClickListener {
+public class HomeFragment extends BaseFragment implements OnClickListener, OnItemClickListener {
 
 	protected static final String TAG = "HomeFragment";
 
@@ -46,8 +51,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	private MovieKeySearch movieKeySearch;
 	private MoviesTodaySearch moviesTodaySearch;
+	private MovieIDSearch movieIDSearch;
 
 	private ArrayList<Movie> moviesTodayResult;
+	private MoviesTodayGridViewAdapter adapter;
 
 	@Override
 	public View initView(LayoutInflater inflater) {
@@ -64,6 +71,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private void setListener() {
 		ivSearchMovie.setOnClickListener(this);
 		tvMoreMovieInfo.setOnClickListener(this);
+		gvMoviesToday.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -102,7 +110,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				MoviesTodaySearchResultBean moviesTodaySearchResultBean = GsonTools.changeGsonToBean(response, MoviesTodaySearchResultBean.class);
 				moviesTodayResult = moviesTodaySearchResultBean.result;
 				ArrayList<Movie> homeShowList = new ArrayList<MoviesTodaySearchResultBean.Movie>();
-				MoviesTodayGridViewAdapter adapter;
+
 				if (moviesTodayResult.size() > 6) {
 					for (int i = 0; i < 6; i++) {
 						homeShowList.add(moviesTodayResult.get(i));
@@ -146,6 +154,26 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			break;
 		}
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		movieIDSearch = new MovieIDSearch(context);
+		movieIDSearch.setSearchSuccessCallback(new MovieIDSearch.SearchSuccessCallback() {
+
+			@Override
+			public void onSuccess(String response) {
+				MyLog.d(TAG, response);
+				MovieIDSearchResultBean movieIDSearchResultBean = GsonTools.changeGsonToBean(response, MovieIDSearchResultBean.class);
+				MovieInfo movieInfo = movieIDSearchResultBean.result;
+				Intent intent = new Intent(context, MovieInfoDetailActivity.class);
+				intent.putExtra("movieInfoDetail", movieInfo);
+				startActivity(intent);
+			}
+		});
+		Movie movie = adapter.getItem(position);
+		movieIDSearch.search(movie.movieId);
+	}
+
 	// class MovieKeySearchTask extends AsyncTask<String, Void, Void> {
 	//
 	// @Override

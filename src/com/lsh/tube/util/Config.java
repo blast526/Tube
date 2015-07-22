@@ -75,4 +75,17 @@ public class Config {
 	// key string 是 应用APPKEY(应用详细页查询)
 	// dtype string 否 返回数据的格式,xml/json，默认json
 	public static final String MOVIE_TODAY_CITYID_KEY = "cityid";
+
+	/**********************ID检索影片信息*********************************/
+	/**
+	 * ID检索影片信息接口
+	 */
+	public static final String MOVIE_SEARCH_BY_ID_URL = "http://v.juhe.cn/movie/query";
+
+	// 请求参数：
+	// 名称 类型 必填 说明
+	// movieid string 是 需要检索的影片id
+	// key string 是 应用APPKEY(应用详细页查询)
+	// dtype string 否 返回数据的格式,xml/json，默认json
+	public static final String MOVIE_SEARCH_BY_ID_KEY = "movieid";
 }

@@ -68,3 +68,7 @@
 1.MoreMoviesTodayActivity 展示今日热映影片，使用开源框架PullToRefresh实现上拉加载更多
 
 2.修复slidingmenu切换同一个Fragment时重新创建
+
+3.MovieIDSearch 按影片id检索影片信息网络请求封装，MoviesTodaySearchResultBean id检索影片信息封装bean，其中影片信息MovieInfo 复用MovieKeySearchResultBean中的MovieInfo，因为返回字段相同
+
+4.实现两个界面中GridView的item点击事件，并跳转

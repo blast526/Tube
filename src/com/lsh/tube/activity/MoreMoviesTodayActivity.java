@@ -3,8 +3,14 @@ package com.lsh.tube.activity;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -12,17 +18,24 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.lsh.tube.R;
 import com.lsh.tube.adpater.MoviesTodayGridViewAdapter;
+import com.lsh.tube.bean.MovieIDSearchResultBean;
+import com.lsh.tube.bean.MovieKeySearchResultBean.MovieInfo;
 import com.lsh.tube.bean.MoviesTodaySearchResultBean.Movie;
+import com.lsh.tube.net.MovieIDSearch;
+import com.lsh.tube.util.GsonTools;
 import com.lsh.tube.util.MyLog;
 
-public class MoreMoviesTodayActivity extends Activity {
+public class MoreMoviesTodayActivity extends Activity implements OnClickListener, OnItemClickListener {
 
 	protected static final String TAG = "MoreMoviesTodayActivity";
 
+	private ImageView ivBack;
 	private PullToRefreshGridView pullToRefreshGridView;
 	private MoviesTodayGridViewAdapter adapter;
 	private ArrayList<Movie> moviesTodayResult;// 今日放映影片所有集合
 	private ArrayList<Movie> moviesTodayShowList;// 当前已加载集合
+
+	private MovieIDSearch movieIDSearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +46,15 @@ public class MoreMoviesTodayActivity extends Activity {
 	}
 
 	private void initView() {
+		ivBack = (ImageView) findViewById(R.id.ivBack);
+		ivBack.setOnClickListener(this);
+
 		pullToRefreshGridView = (PullToRefreshGridView) findViewById(R.id.pull_refresh_grid);
 		ILoadingLayout endLabels = pullToRefreshGridView.getLoadingLayoutProxy(false, true);
 		endLabels.setPullLabel("加载成功...");// 刚上拉时，显示的提示
 		endLabels.setRefreshingLabel("正在加载...");// 刷新时
 		endLabels.setReleaseLabel("加载更多...");// 下拉达到一定距离时，显示的提示
+		pullToRefreshGridView.setOnItemClickListener(this);
 	}
 
 	private void initData() {
@@ -99,6 +116,37 @@ public class MoreMoviesTodayActivity extends Activity {
 			// Call onRefreshComplete when the list has been refreshed.
 			pullToRefreshGridView.onRefreshComplete();
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ivBack:// 返回
+			finish();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		movieIDSearch = new MovieIDSearch(this);
+		movieIDSearch.setSearchSuccessCallback(new MovieIDSearch.SearchSuccessCallback() {
+
+			@Override
+			public void onSuccess(String response) {
+				MyLog.d(TAG, response);
+				MovieIDSearchResultBean movieIDSearchResultBean = GsonTools.changeGsonToBean(response, MovieIDSearchResultBean.class);
+				MovieInfo movieInfo = movieIDSearchResultBean.result;
+				Intent intent = new Intent(MoreMoviesTodayActivity.this, MovieInfoDetailActivity.class);
+				intent.putExtra("movieInfoDetail", movieInfo);
+				startActivity(intent);
+			}
+		});
+		Movie movie = adapter.getItem(position);
+		movieIDSearch.search(movie.movieId);
 	}
 
 }
