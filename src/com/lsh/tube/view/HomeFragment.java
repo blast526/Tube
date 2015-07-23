@@ -2,13 +2,12 @@ package com.lsh.tube.view;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +48,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	protected static final String TAG = "HomeFragment";
 
+	public static final int load_ok = 0;
+
 	private EditText etSearchMovieTitle;
 	private ImageView ivSearchMovie;
 	private TextView tvMoreMovieInfo;
@@ -60,9 +61,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private ArrayList<Movie> moviesTodayResult;
 	private MoviesTodayGridViewAdapter adapter;
-
-	private ConnectionChangeReceiver connectionChangeReceiver;
-	private LocalBroadcastManager localBroadcastManager;
 
 	@Override
 	public View initView(LayoutInflater inflater) {
@@ -128,7 +126,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 					adapter = new MoviesTodayGridViewAdapter(context, moviesTodayResult);
 				}
 				gvMoviesToday.setAdapter(adapter);
-
+				adapter.notifyDataSetChanged();
 			}
 		});
 		if (TextUtils.isEmpty(cityid)) {
@@ -156,9 +154,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		case R.id.tvMoreMovieInfo:
 
 			if (CommonUtil.checkNet(context)) {
-				Intent intent = new Intent(context, MoreMoviesTodayActivity.class);
-				intent.putExtra("moviesTodayResult", moviesTodayResult);
-				startActivity(intent);
+				// 模拟器单独移动网络判断有网络，但实际没网络
+				if (moviesTodayResult != null) {
+					Intent intent = new Intent(context, MoreMoviesTodayActivity.class);
+					intent.putExtra("moviesTodayResult", moviesTodayResult);
+					startActivity(intent);
+				} else {
+					Toast.makeText(context, "请确认网络畅通", 1).show();
+				}
 			} else {
 				MyLog.d(TAG, CommonUtil.checkNet(context) + "");
 				Toast.makeText(context, "无法连接到服务器或网络", 1).show();
@@ -198,34 +201,39 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	 * @author Blast
 	 * @date 2015-7-22 下午11:04:39
 	 */
-	class ConnectionChangeReceiver extends BroadcastReceiver {
+	private BroadcastReceiver connectionChangeReceiver = new BroadcastReceiver() {
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (CommonUtil.checkNet(context)) {
-				initMoviesToday();
+			MyLog.d(TAG, "接收到广播");
+			String action = intent.getAction();
+			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+				if (CommonUtil.checkNet(context)) {
+					initMoviesToday();
+				}
 			}
-			adapter.notifyDataSetChanged();
 		}
-	}
+	};
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		// 发送广播并注册
-		localBroadcastManager = LocalBroadcastManager.getInstance(activity);
-		Intent intent = new Intent("com.lsh.tube.CONNECTION_CHANGE_BROADCAST");
-		localBroadcastManager.sendBroadcast(intent);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		// 广播注册
+		MyLog.d(TAG, "注册广播");
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction("com.lsh.tube.CONNECTION_CHANGE_BROADCAST");
-		connectionChangeReceiver = new ConnectionChangeReceiver();
-		localBroadcastManager.registerReceiver(connectionChangeReceiver, intentFilter);
+		intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		context.registerReceiver(connectionChangeReceiver, intentFilter);
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
+	public void onDestroy() {
+		super.onDestroy();
 		// 注销广播
-		localBroadcastManager.unregisterReceiver(connectionChangeReceiver);
+		MyLog.d(TAG, "注销广播");
+		if (connectionChangeReceiver != null) {
+			context.unregisterReceiver(connectionChangeReceiver);
+			connectionChangeReceiver = null;
+		}
 	}
 
 	// class MovieKeySearchTask extends AsyncTask<String, Void, Void> {

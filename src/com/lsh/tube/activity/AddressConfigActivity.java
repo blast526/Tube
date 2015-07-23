@@ -3,6 +3,7 @@ package com.lsh.tube.activity;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ public class AddressConfigActivity extends Activity {
 	private ArrayList<City> cities;
 	private SupportCityResultListAdapter adapter;
 	private Handler handler = new Handler();
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,13 @@ public class AddressConfigActivity extends Activity {
 	}
 
 	private void initData() {
+		showProgressDialog();
 		supportCitiesSearch = new SupportCitiesSearch(this);
 		supportCitiesSearch.setSearchSuccessCallback(new SupportCitiesSearch.SearchSuccessCallback() {
 
 			@Override
 			public void onSuccess(String response) {
+				closeProgressDialog();
 				MyLog.d(TAG, response);
 				// tvSupportCities.setText(response);
 				SupportCitiesSearchResultBean supportCitiesSearchResultBean = GsonTools.changeGsonToBean(response, SupportCitiesSearchResultBean.class);
@@ -109,5 +113,26 @@ public class AddressConfigActivity extends Activity {
 				currentIndex.setVisibility(View.GONE);
 			}
 		}, 2015);
+	}
+
+	/**
+	 * 显示进度对话框
+	 */
+	private void showProgressDialog() {
+		if (progressDialog == null) {
+			progressDialog = new ProgressDialog(this);
+			progressDialog.setMessage("勺飞正在屁颠屁颠地加载。。。");
+			progressDialog.setCanceledOnTouchOutside(false);
+		}
+		progressDialog.show();
+	}
+
+	/**
+	 * 关闭进度对话框
+	 */
+	private void closeProgressDialog() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+		}
 	}
 }

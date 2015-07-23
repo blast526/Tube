@@ -135,7 +135,7 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 			exitTime = System.currentTimeMillis();
 		} else {
 			finish();
-			System.exit(0);
+			// System.exit(0);
 		}
 	}
 
