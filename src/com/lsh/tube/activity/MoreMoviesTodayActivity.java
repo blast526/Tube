@@ -152,9 +152,11 @@ public class MoreMoviesTodayActivity extends Activity implements OnClickListener
 				MyLog.d(TAG, response);
 				MovieIDSearchResultBean movieIDSearchResultBean = GsonTools.changeGsonToBean(response, MovieIDSearchResultBean.class);
 				MovieInfo movieInfo = movieIDSearchResultBean.result;
-				Intent intent = new Intent(MoreMoviesTodayActivity.this, MovieInfoDetailActivity.class);
-				intent.putExtra("movieInfoDetail", movieInfo);
-				startActivity(intent);
+				if (movieInfo != null) {
+					Intent intent = new Intent(MoreMoviesTodayActivity.this, MovieInfoDetailActivity.class);
+					intent.putExtra("movieInfoDetail", movieInfo);
+					startActivity(intent);
+				}
 			}
 		});
 		Movie movie = adapter.getItem(position);

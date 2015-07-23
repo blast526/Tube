@@ -14,6 +14,13 @@ public class Config {
 	public static final boolean IS_DEBUG = true;
 
 	/**
+	 * 聚合数据OpenID
+	 */
+	public static final String JuHe_Open_ID = "JH3a5883061ee1d50a28418509b3797284";
+	// public static final String JuHe_Open_ID =
+	// "JH4e4ef93c5816c12a98d238455737e04d";
+
+	/**
 	 * 影讯API合集APPKEY
 	 */
 	public static final String MOVIE_API_APPKEY = "e82b8542c44c4c77b5abe72c995fde5b";
@@ -88,4 +95,22 @@ public class Config {
 	// key string 是 应用APPKEY(应用详细页查询)
 	// dtype string 否 返回数据的格式,xml/json，默认json
 	public static final String MOVIE_SEARCH_BY_ID_KEY = "movieid";
+
+	/**********************检索周边影院*********************************/
+	/**
+	 * 检索周边影院接口
+	 */
+	public static final String CINEMAS_LOCAL_SEARCH_URL = "http://v.juhe.cn/movie/cinemas.local";
+
+	// 请求参数：
+	// 名称 类型 必填 说明
+	// lat string 是 纬度，百度地图坐标系
+	// lon string 是 经度，百度地图坐标系
+	// radius string 是 检索半径(米)，最大3000
+	// key string 是 应用APPKEY(应用详细页查询)
+	// dtype string 否 返回数据的格式,xml/json，默认json
+	public static final String LOCATION_LAT_KEY = "lat";
+	public static final String LOCATION_LON_KEY = "lon";
+	public static final String LOCATION_RADIUS_KEY = "radius";
+	public static final String LOCATION_RADIUS_VALUE = "3000";
 }

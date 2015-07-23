@@ -91,9 +91,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				MyLog.d(TAG, response);
 				MovieKeySearchResultBean movieKeySearchResultBean = GsonTools.changeGsonToBean(response, MovieKeySearchResultBean.class);
 				ArrayList<MovieInfo> result = movieKeySearchResultBean.result;
-				Intent intent = new Intent(context, MovieSearchResultListActivity.class);
-				intent.putExtra("movieSearchResultList", result);
-				startActivity(intent);
+				if (result != null) {
+					Intent intent = new Intent(context, MovieSearchResultListActivity.class);
+					intent.putExtra("movieSearchResultList", result);
+					startActivity(intent);
+				}
 			}
 		});
 
@@ -115,18 +117,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				MyLog.d(TAG, response);
 				MoviesTodaySearchResultBean moviesTodaySearchResultBean = GsonTools.changeGsonToBean(response, MoviesTodaySearchResultBean.class);
 				moviesTodayResult = moviesTodaySearchResultBean.result;
-				ArrayList<Movie> homeShowList = new ArrayList<MoviesTodaySearchResultBean.Movie>();
+				if (moviesTodayResult != null) {
+					ArrayList<Movie> homeShowList = new ArrayList<MoviesTodaySearchResultBean.Movie>();
 
-				if (moviesTodayResult.size() > 6) {
-					for (int i = 0; i < 6; i++) {
-						homeShowList.add(moviesTodayResult.get(i));
+					if (moviesTodayResult.size() > 6) {
+						for (int i = 0; i < 6; i++) {
+							homeShowList.add(moviesTodayResult.get(i));
+						}
+						adapter = new MoviesTodayGridViewAdapter(context, homeShowList);
+					} else {
+						adapter = new MoviesTodayGridViewAdapter(context, moviesTodayResult);
 					}
-					adapter = new MoviesTodayGridViewAdapter(context, homeShowList);
-				} else {
-					adapter = new MoviesTodayGridViewAdapter(context, moviesTodayResult);
+					gvMoviesToday.setAdapter(adapter);
+					adapter.notifyDataSetChanged();
 				}
-				gvMoviesToday.setAdapter(adapter);
-				adapter.notifyDataSetChanged();
 			}
 		});
 		if (TextUtils.isEmpty(cityid)) {
@@ -182,9 +186,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				MyLog.d(TAG, response);
 				MovieIDSearchResultBean movieIDSearchResultBean = GsonTools.changeGsonToBean(response, MovieIDSearchResultBean.class);
 				MovieInfo movieInfo = movieIDSearchResultBean.result;
-				Intent intent = new Intent(context, MovieInfoDetailActivity.class);
-				intent.putExtra("movieInfoDetail", movieInfo);
-				startActivity(intent);
+				if (movieInfo != null) {
+					Intent intent = new Intent(context, MovieInfoDetailActivity.class);
+					intent.putExtra("movieInfoDetail", movieInfo);
+					startActivity(intent);
+				}
+
 			}
 		});
 		Movie movie = adapter.getItem(position);

@@ -1,6 +1,7 @@
 package com.lsh.tube.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.thinkland.sdk.android.JuheSDKInitializer;
 
@@ -12,9 +13,16 @@ import com.thinkland.sdk.android.JuheSDKInitializer;
  */
 public class MyApplication extends Application {
 
+	private static Context context;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		JuheSDKInitializer.initialize(getApplicationContext());
+		context = getApplicationContext();
+	}
+
+	public static Context getContext() {
+		return context;
 	}
 }

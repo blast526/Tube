@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvCinemaName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="橙天嘉禾影城"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvCinemaTelephone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12345678910" />
+
+        <TextView
+            android:id="@+id/tvCinemaAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="宇宙银河系太阳系地球亚洲中国福建厦门" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCinemaDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1126米" />
+
+</LinearLayout>

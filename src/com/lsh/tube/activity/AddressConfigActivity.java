@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lsh.tube.R;
 import com.lsh.tube.adpater.SupportCityResultListAdapter;
@@ -61,8 +62,18 @@ public class AddressConfigActivity extends Activity {
 				// tvSupportCities.setText(response);
 				SupportCitiesSearchResultBean supportCitiesSearchResultBean = GsonTools.changeGsonToBean(response, SupportCitiesSearchResultBean.class);
 				cities = supportCitiesSearchResultBean.result;
-				adapter = new SupportCityResultListAdapter(AddressConfigActivity.this, cities);
-				listView.setAdapter(adapter);
+				if (cities != null) {
+					adapter = new SupportCityResultListAdapter(AddressConfigActivity.this, cities);
+					listView.setAdapter(adapter);
+				}
+			}
+		});
+		supportCitiesSearch.setSearchFailCallback(new SupportCitiesSearch.SearchFailCallback() {
+
+			@Override
+			public void onFail() {
+				closeProgressDialog();
+				Toast.makeText(AddressConfigActivity.this, "请确认网络畅通", 0).show();
 			}
 		});
 		supportCitiesSearch.search();
