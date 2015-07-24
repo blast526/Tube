@@ -1,5 +1,6 @@
 <resources>
 
     <string name="app_name">影搜</string>
+    <string name="instruction">1.支持根据片名检索影片详细信息\n2.支持所选城市当日放映影片检索\n3.支持当前位置周边影院检索\n4.支持喜爱影片收藏与分享，离线查看\n5.支持所在城市设置\n6.支持清空缓存</string>
 
 </resources>

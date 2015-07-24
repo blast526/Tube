@@ -86,6 +86,8 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name="com.lsh.tube.activity.AboutMeActivity" >
+        </activity>
 
         <service
             android:name="com.baidu.location.f"

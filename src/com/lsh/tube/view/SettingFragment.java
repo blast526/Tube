@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lsh.tube.R;
+import com.lsh.tube.activity.AboutMeActivity;
 import com.lsh.tube.activity.AddressConfigActivity;
 import com.lsh.tube.bean.SupportCitiesSearchResultBean.City;
 import com.lsh.tube.util.CommonUtil;
@@ -42,11 +43,13 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 		tvMyAddress = (TextView) view.findViewById(R.id.tvMyAddress);
 		tvCacheSize = (TextView) view.findViewById(R.id.tvCacheSize);
 		tvAboutMe = (TextView) view.findViewById(R.id.tvAboutMe);
+
 		setListener();
 		return view;
 	}
 
 	private void setListener() {
+
 		llAddressConfig.setOnClickListener(this);
 		llClearCache.setOnClickListener(this);
 		tvAboutMe.setOnClickListener(this);
@@ -89,13 +92,17 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 			Toast.makeText(context, "清理缓存完毕", 0).show();
 			break;
 		case R.id.tvAboutMe:
-
+			Intent intent = new Intent(context, AboutMeActivity.class);
+			startActivity(intent);
 			break;
 
 		default:
 			break;
 		}
 	}
+
+	private long firstClickTime;
+	private int clickTime = 1;
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -140,7 +147,6 @@ public class SettingFragment extends BaseFragment implements OnClickListener {
 	/*
 	@Override
 	public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
-	// TODO Auto-generated method stub
 	cachesize = pStats.cacheSize; // 缓存大小
 	MyLog.d(TAG, "cachesize--->" + cachesize);
 	tvCacheSize.setText(formateFileSize(cachesize));

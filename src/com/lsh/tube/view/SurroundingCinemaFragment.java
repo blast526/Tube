@@ -206,7 +206,7 @@ public class SurroundingCinemaFragment extends BaseFragment {
 			MyLog.d(TAG, "详细地址:" + addr + "--定位结果:" + describe);
 			// 设置显示地址，根据经纬度查询周边影院
 			if (addr == null && locationdescribe == null) {
-				locationdescribe = "请确认网络畅通";
+				locationdescribe = "请确认网络畅通，或打开GPS更快定位";
 			} else {
 				searchSurroundingCinema();
 			}
@@ -227,6 +227,12 @@ public class SurroundingCinemaFragment extends BaseFragment {
 		if (CommonUtil.checkNet(context)) {
 			surroundingCinemaSearch.search(lat, lon);
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mLocationClient.stop();
 	}
 
 	/**

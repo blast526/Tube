@@ -111,7 +111,6 @@ public class MainActivity extends SlidingFragmentActivity implements OnClickList
 		case R.id.ibMenuLeft:
 			slidingMenu.toggle();
 			break;
-
 		default:
 			break;
 		}
