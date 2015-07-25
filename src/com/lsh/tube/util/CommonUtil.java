@@ -136,4 +136,18 @@ public class CommonUtil {
 		return (int) (pxValue / scale + 0.5f);
 	}
 
+	/**
+	 * 查看内存
+	 */
+	public static void checkMemory() {
+		// 应用程序最大可用内存
+		int maxMemory = ((int) Runtime.getRuntime().maxMemory()) / 1024 / 1024;
+		MyLog.d("应用程序最大可用内存", maxMemory + "");
+		// 应用程序已获得内存
+		long totalMemory = ((int) Runtime.getRuntime().totalMemory()) / 1024 / 1024;
+		MyLog.d("应用程序已获得内存", totalMemory + "");
+		// 应用程序已获得内存中未使用内存
+		long freeMemory = ((int) Runtime.getRuntime().freeMemory()) / 1024 / 1024;
+		MyLog.d("应用程序已获得内存中未使用内存", freeMemory + "");
+	}
 }

@@ -86,7 +86,10 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.lsh.tube.activity.AboutMeActivity" >
+        <activity
+            android:name="com.lsh.tube.activity.AboutMeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
         </activity>
 
         <service
