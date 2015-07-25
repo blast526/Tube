@@ -79,6 +79,7 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 			bitmapUtils.display(ivPoster, movieInfo.poster);
 		} else if (movieInfo.posterBitmap != null) {
 			ivPoster.setImageBitmap(movieInfo.posterBitmap);
+			ShareMovieInfoUtil.saveBitmap2file(this, movieInfo.posterBitmap, movieInfo.title);
 		}
 		if (!TextUtils.isEmpty(movieInfo.rating)) {
 			tvRating.setText(movieInfo.rating);
@@ -227,10 +228,15 @@ public class MovieInfoDetailActivity extends Activity implements OnClickListener
 	 * 分享图片，添加文字
 	 */
 	public void share() {
-		// 从缓存中获取图片文件
-		File bitmapFileFromDiskCache = bitmapUtils.getBitmapFileFromDiskCache(movieInfo.poster);
-		// 获取图片文件路径
-		String imgPath = bitmapFileFromDiskCache.getAbsolutePath();
+		String imgPath = "";
+		if (movieInfo.poster != null) {
+			// 从缓存中获取图片文件
+			File bitmapFileFromDiskCache = bitmapUtils.getBitmapFileFromDiskCache(movieInfo.poster);
+			// 获取图片文件路径
+			imgPath = bitmapFileFromDiskCache.getAbsolutePath();
+		} else if (movieInfo.posterBitmap != null) {
+			imgPath = this.getExternalCacheDir().getAbsolutePath() + movieInfo.title;
+		}
 		ShareMovieInfoUtil.shareMsg(this, "分享影片", "影片分享", "这是我喜爱的电影，强烈推荐！--" + movieInfo.title, imgPath);
 	}
 

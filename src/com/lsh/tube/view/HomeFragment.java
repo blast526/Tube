@@ -216,7 +216,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			String action = intent.getAction();
 			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 				if (CommonUtil.checkNet(context)) {
-					if (moviesTodayResult != null) {
+					if (moviesTodayResult == null) {
 						initMoviesToday();
 					}
 				}
